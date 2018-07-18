@@ -26,7 +26,15 @@
   */
  public interface SimpleFunctionSingleAbstractFunction {
 
-//     void test1();
+     static void test() {
+         System.out.println("非抽象接口之静态接口方法");
+     }
+
+     default void test0() {
+         System.out.println("非抽象接口之默认接口方法");
+     }
+
+     //     void test1();
 
      void test2();
 

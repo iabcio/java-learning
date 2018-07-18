@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,6 +159,21 @@ public class LambdaTest3 {
         System.out.println();
         System.out.println("lambda方法引用:");
         programers.forEach(System.out::println);
+
+        Spliterator<String> spliterator = programers.spliterator();
+        System.out.println();
+        System.out.println("lambda spliterator:");
+        spliterator.forEachRemaining(programer -> System.out.println(programer));
+
+        Stream<String> stream = programers.stream();
+        System.out.println();
+        System.out.println("lambda stream:");
+        stream.forEach(programer -> System.out.println(programer));
+
+        Stream<String> parallelStream = programers.parallelStream();
+        System.out.println();
+        System.out.println("lambda parallelStream:");
+        parallelStream.forEach(programer -> System.out.println(programer));
 
     }
 

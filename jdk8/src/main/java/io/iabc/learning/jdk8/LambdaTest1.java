@@ -56,8 +56,12 @@ public class LambdaTest1 {
         SimpleFunctionSingleAbstractFunction singleAbstractFunction = () -> System.out
             .println("only single abstract method allowed");
 
+        SimpleFunctionSingleAbstractFunction.test();
+        singleAbstractFunction.test0();
+        //        singleAbstractFunction.test1();
         singleAbstractFunction.test2();
 
+        //        SimpleFunctionWithParamString function3 = (String content) -> System.out.println("hello " + content);
         SimpleFunctionWithParamString function3 = content -> System.out.println("hello " + content);
 
         function3.hello("wedoctor");
@@ -83,7 +87,7 @@ public class LambdaTest1 {
         System.out.println("isMatch:" + function6.test("xinxz"));
         System.out.println("isMatch:" + function6.test("wwinxz"));
         System.out.println("isMatch:" + function6.test("winxzy"));
-        
+
     }
 
 }
