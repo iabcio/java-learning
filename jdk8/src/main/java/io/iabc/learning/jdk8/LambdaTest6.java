@@ -94,9 +94,4 @@ public class LambdaTest6 {
         System.out.println("total:" + total);
     }
 
-    public static void filter(List<String> names, Predicate condition) {
-        names.stream().filter((name) -> (condition.test(name))).forEach((name) -> {
-            System.out.println(name + " ");
-        });
-    }
 }
