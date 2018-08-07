@@ -26,7 +26,7 @@
 `测试环境`
 
 ```
-JAVA_HOME="/usr/greenline/jdk_1.8"
+JAVA_HOME="/usr/local/jdk_1.8"
 export JAVA_HOME
 
 export CLASSPATH=.:$JAVA_HOME
