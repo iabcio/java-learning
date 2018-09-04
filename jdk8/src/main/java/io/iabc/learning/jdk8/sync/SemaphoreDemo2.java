@@ -20,7 +20,6 @@
  import java.util.List;
  import java.util.concurrent.Semaphore;
  import java.util.concurrent.atomic.AtomicInteger;
- import java.util.concurrent.atomic.LongAdder;
 
  /**
   * Project: java-learning
@@ -33,16 +32,15 @@
  public class SemaphoreDemo2 {
 
      public static void main(String[] args) {
-
-         new Cook("huwei", Cafeteria.semaphore).start();
-         new Eater("jiajian", Cafeteria.semaphore).start();
+         new Cook("huwei").start();
+         new Eater("jiajian").start();
      }
 
      /**
-      * 盘子
+      * 自助餐厅
       */
      private static class Cafeteria {
-         private final static List<String> foodList = new ArrayList<String>() {
+         public final static List<String> foodList = new ArrayList<String>() {
              {
                  add("三文鱼");
                  add("牛排");
@@ -52,73 +50,54 @@
                  add("甜点");
              }
          };
-         static String plate;
-         final static Semaphore semaphore = new Semaphore(1, true);
+         private static String plate;
+         private final static Semaphore consumerSemaphore = new Semaphore(0);
+         private final static Semaphore producerSemaphore = new Semaphore(1);
+
+         public static void put(String food, String who) {
+             producerSemaphore.acquireUninterruptibly();
+             Cafeteria.plate = food;
+             System.out.println(who + " put food:" + food);
+             consumerSemaphore.release();
+         }
+
+         public static String get(String who) {
+             consumerSemaphore.acquireUninterruptibly();
+             System.out.println(who + " get food:" + Cafeteria.plate);
+             producerSemaphore.release();
+             return Cafeteria.plate;
+         }
      }
 
      private static class Cook extends Thread {
 
-         private Semaphore semaphore;
-         private AtomicInteger seq = new AtomicInteger();
-
-         public Cook(String name, Semaphore semaphore) {
+         public Cook(String name) {
              super("cook-" + name);
-             this.semaphore = semaphore;
          }
 
          @Override
          public void run() {
              super.run();
 
-             do {
-
-                 try {
-                     this.semaphore.acquireUninterruptibly();
-                     if (Cafeteria.plate == null) {
-                         Cafeteria.plate = Cafeteria.foodList.get(seq.getAndIncrement());
-                         System.out.println(super.getName() + " cook " + Cafeteria.plate);
-                     }
-                     try {
-                         Thread.sleep(10);
-                     } catch (InterruptedException e) {
-                     }
-                 } finally {
-                     this.semaphore.release();
-                 }
-             } while (seq.intValue() < Cafeteria.foodList.size());
-
+             Cafeteria.foodList.stream().forEachOrdered(food -> {
+                 Cafeteria.put(food, this.getName());
+             });
          }
      }
 
      private static class Eater extends Thread {
 
-         private Semaphore semaphore;
-
-         public Eater(String name, Semaphore semaphore) {
+         public Eater(String name) {
              super("eater-" + name);
-             this.semaphore = semaphore;
          }
 
          @Override
          public void run() {
-             super.run();
-             LongAdder count = new LongAdder();
+             AtomicInteger eated = new AtomicInteger();
              do {
-                 this.semaphore.acquireUninterruptibly();
-                 if (Cafeteria.plate != null) {
-                     System.out.println(super.getName() + " is eating " + Cafeteria.plate);
-                     Cafeteria.plate = null;
-                     count.increment();
-                 }
-                 this.semaphore.release();
+                 String food = Cafeteria.get(this.getName());
 
-                 try {
-                     Thread.sleep(10);
-                 } catch (InterruptedException e) {
-                 }
-
-             } while (count.intValue() < Cafeteria.foodList.size());
-
+             } while (eated.get() < Cafeteria.foodList.size());
          }
      }
 
