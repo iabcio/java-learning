@@ -16,6 +16,7 @@
 
  package io.iabc.learning.jdk8.sync;
 
+ import java.util.Date;
  import java.util.concurrent.Semaphore;
 
  /**
@@ -29,8 +30,9 @@
  public class SemaphoreDemo {
 
      public static void main(String[] args) {
+
          Semaphore semaphore = new Semaphore(2);
-         
+
          new Player("shuchen", semaphore).start();
          new Player("jiajian", semaphore).start();
          new Player("xiaofei", semaphore).start();
@@ -57,10 +59,9 @@
 
              try {
                  this.semaphore.acquireUninterruptibly();
-                 System.out.println(super.getName() + " is play badminton");
-
-                 Thread.sleep(100);
-                 System.out.println(super.getName() + " is play badminton finished ");
+                 System.out.println(new Date() + " " + super.getName() + " is playing badminton");
+                 Thread.sleep((long) (1000 * Math.random()));
+                 System.out.println(new Date() + " " + super.getName() + " has played badminton finished");
              } catch (InterruptedException e) {
 
              } finally {
