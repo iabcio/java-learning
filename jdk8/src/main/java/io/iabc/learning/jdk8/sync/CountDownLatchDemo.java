@@ -16,6 +16,9 @@
 
  package io.iabc.learning.jdk8.sync;
 
+ import java.util.Date;
+ import java.util.concurrent.CountDownLatch;
+
  /**
   * Project: java-learning
   * TODO:
@@ -26,4 +29,49 @@
   */
  public class CountDownLatchDemo {
 
+     public static void main(String[] args) {
+         CountDownLatch latch = new CountDownLatch(12);
+
+         System.out.println("begin");
+         new SimpleTask("test1", latch).start();
+         new SimpleTask("test2", latch).start();
+         new SimpleTask("test3", latch).start();
+         new SimpleTask("test4", latch).start();
+         new SimpleTask("test5", latch).start();
+         new SimpleTask("test6", latch).start();
+         new SimpleTask("test7", latch).start();
+         new SimpleTask("test8", latch).start();
+         new SimpleTask("test9", latch).start();
+         new SimpleTask("test10", latch).start();
+         new SimpleTask("test11", latch).start();
+         new SimpleTask("test12", latch).start();
+
+         try {
+             latch.await();
+         } catch (InterruptedException e) {
+
+         }
+         System.out.println("end");
+     }
+
+ }
+
+ class SimpleTask extends Thread {
+
+     private CountDownLatch latch;
+
+     public SimpleTask(String name, CountDownLatch latch) {
+         super(name);
+         this.latch = latch;
+     }
+
+     @Override
+     public void run() {
+         try {
+             Thread.sleep(10);
+             System.out.println(this.getName() + ":" + new Date());
+             this.latch.countDown();
+         } catch (InterruptedException e) {
+         }
+     }
  }
