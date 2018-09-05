@@ -26,6 +26,10 @@
   */
  public interface HumanizedTeamBuildingActivity extends TeamBuildingActivity {
 
+     default boolean isEatingSelected() {
+         return true;
+     }
+
      default boolean isPlayBilliardsSelected() {
          return true;
      }
