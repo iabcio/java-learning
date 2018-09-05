@@ -18,6 +18,7 @@
 
  import java.util.concurrent.BrokenBarrierException;
  import java.util.concurrent.CyclicBarrier;
+ import java.util.concurrent.atomic.AtomicInteger;
 
  /**
   * Project: java-learning
@@ -31,11 +32,15 @@
 
      public static void main(String[] args) {
 
-         CyclicBarrier barrier = new CyclicBarrier(3, new BarAction());
+         //         CyclicBarrier barrier = new CyclicBarrier(3, new BarAction());
+         CyclicBarrier barrier = new CyclicBarrier(3, new StatBarAction());
+         //         CyclicBarrier barrier = new CyclicBarrier(3);
 
+         System.out.println("中午打球去唠!\n");
          new Player("weirui", barrier).start();
-         new Player("shuchen", barrier).start();
          new Player("huwei", barrier).start();
+         new Player("shuchen", barrier).start();
+         System.out.println("\n打球结束，好好上班!");
      }
  }
 
@@ -55,10 +60,14 @@
              System.out.println(this.getName() + "等电梯");
              this.barrier.await();
              System.out.println(this.getName() + "坐车去球场");
-             this.barrier.await();     
-             System.out.println(this.getName() + "换装备");
-             this.barrier.await();  
-             System.out.println(this.getName() + "打球");
+             this.barrier.await();
+             System.out.println(this.getName() + "换运动装备");
+             this.barrier.await();
+             System.out.println(this.getName() + "打球中");
+             this.barrier.await();
+             System.out.println(this.getName() + "打完球，洗漱换装备");
+             this.barrier.await();
+             System.out.println(this.getName() + "集合，坐车回公司");
              this.barrier.await();
          } catch (InterruptedException e) {
          } catch (BrokenBarrierException e) {
@@ -70,6 +79,20 @@
      @Override
      public void run() {
          System.out.println("Barrier Reached!");
+         System.out.println();
+     }
+ }
+
+ class StatBarAction implements Runnable {
+
+     private AtomicInteger generation = new AtomicInteger();
+
+     public StatBarAction() {
+     }
+
+     @Override
+     public void run() {
+         System.out.println(this.generation.getAndIncrement() + " generation barrier reached!");
          System.out.println();
      }
  }
