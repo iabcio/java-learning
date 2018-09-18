@@ -31,7 +31,7 @@
 
      public static void main(String[] args) {
 
-         Semaphore semaphore = new Semaphore(2);
+         Semaphore semaphore = new Semaphore(4);
 
          new Player("shuchen", semaphore).start();
          new Player("jiajian", semaphore).start();
@@ -55,7 +55,6 @@
 
          @Override
          public void run() {
-             super.run();
 
              try {
                  this.semaphore.acquireUninterruptibly();
