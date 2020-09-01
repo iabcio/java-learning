@@ -10,6 +10,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>jdk8</module>
+        <module>rxjava</module>
+        <module>algorithm</module>
     </modules>
 
     <properties>
@@ -17,6 +19,7 @@
         <skip_maven_deploy>false</skip_maven_deploy>
         <slflog4j.version>1.7.25</slflog4j.version>
         <lombok.version>1.18.2</lombok.version>
+        <rxjava.version>1.2.0</rxjava.version>
     </properties>
 
     <dependencyManagement>
@@ -33,6 +36,12 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slflog4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxjava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
