@@ -24,7 +24,7 @@ package io.iabc.learning.algorithm.bit;
  * @version V1.0.0
  * @since 2020-09-01 11:33
  */
-public class Swaper {
+public class Swapper {
 
     public static void main(String[] args) {
         int a = 11;
