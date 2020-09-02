@@ -24,12 +24,13 @@ package io.iabc.learning.algorithm.sort;
  * @version V1.0.0
  * @since 2020-09-02 09:42
  */
-public class InsertSort {
+public class ShellSort {
 
     public static void main(String[] args) {
         int[] a = new int[] { 1, 5, 3, 7, 8, 4, 8, 0, 7, 3, 6, 5 };
         print(a);
-        insertSort(a);
+        //        insertSort(a);
+        insertSort2(a);
         print(a);
     }
 
@@ -37,14 +38,18 @@ public class InsertSort {
         int len = array.length;
         int j;
         int tmp;
-        for (int i = 1; i < len; i++) {
-            tmp = array[i];
-            j = i - 1;
-            while (j >= 0 && array[j] > tmp) {
-                array[j + 1] = array[j];
-                j--;
+        int jmp = len >> 1;
+        while (jmp != 0) {
+            for (int i = jmp; i < len; i++) {
+                tmp = array[i];
+                j = i - jmp;
+                while (j >= 0 && array[j] > tmp) {
+                    array[j + jmp] = array[j];
+                    j = j - jmp;
+                }
+                array[j + jmp] = tmp;
             }
-            array[j + 1] = tmp;
+            jmp >>= 1;
         }
     }
 
@@ -52,12 +57,17 @@ public class InsertSort {
         int len = array.length;
         int j;
         int tmp;
-        for (int i = 1; i < len; i++) {
-            tmp = array[i];
-            for (j = i - 1; j >= 0 && array[j] > tmp; j--) {
-                array[j + 1] = array[j];
+        int jmp = len >> 1;
+        while (jmp != 0) {
+            for (int i = jmp; i < len; i++) {
+                tmp = array[i];
+
+                for (j = i - jmp; j >= 0 && array[j] > tmp; j -= jmp) {
+                    array[j + jmp] = array[j];
+                }
+                array[j + jmp] = tmp;
             }
-            array[j + 1] = tmp;
+            jmp >>= 1;
         }
     }
 
