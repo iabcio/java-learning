@@ -28,26 +28,26 @@ public class SortedPrint {
     }
 
     static class PrintTask implements Serializable {
-        private String Name;
-        private String Content;
-        private int SeqNum;
+        private String name;
+        private String content;
+        private int seqNum;
 
         public PrintTask(String name, String content, int seqNum) {
-            Name = name;
-            Content = content;
-            SeqNum = seqNum;
+            this.name = name;
+            this.content = content;
+            this.seqNum = seqNum;
         }
 
         public String getName() {
-            return Name;
+            return name;
         }
 
         public String getContent() {
-            return Content;
+            return content;
         }
 
         public int getSeqNum() {
-            return SeqNum;
+            return seqNum;
         }
     }
 
