@@ -119,8 +119,8 @@ public class SortedPrint {
 
         @Override
         public void run() {
+            lock.lock();
             try {
-                lock.lock();
                 for (int i = 0; i < this.totalPhase; i++) {
                     while (this.globalCounter.intValue() % this.totalThread != this.seqNum) {
                         this.currentCondition.await();
